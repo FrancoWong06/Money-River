@@ -181,11 +181,11 @@ export default function Home({ user, setUser }) {
                 <MdAccountCircle />
                 Account
               </NavLink>
-              <NavLink className="NavLink">
+              <NavLink className="NavLink" to={`/${user.id}/incomes`}>
                 <MdInput />
                 Incomes
               </NavLink>
-              <NavLink className="NavLink">
+              <NavLink className="NavLink" to={`/${user.id}/expenses`}>
                 <IoIosLogOut />
                 Expenses
               </NavLink>
