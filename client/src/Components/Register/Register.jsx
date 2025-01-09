@@ -5,19 +5,60 @@ import { PersonCircleOutline } from "react-ionicons";
 
 import { NavLink, useNavigate } from "react-router-dom";
 
-const registerUrl = "http://localhost:3000/registeruser";
+const registerUrl = "http://localhost:3000/register";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [registerUser, setRegisterUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setRegisterUser({
+      ...registerUser,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const resetRegisterForm = () => {
+    setRegisterUser({
+      name: "",
+      email: "",
+      password: "",
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await fetch(registerUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(registerUser),
+      })
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      resetRegisterForm();
+      navigate('/', { replace: true }); 
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   return (
     <div className="Logincontainer">
       <div className="login-box">
-        <form >
+        <form onSubmit={handleSubmit}>
           <h2>Register</h2>
           <div className="input-box">
             <span className="icon">
               <PersonCircleOutline
-                color={"#00000"}
+                color={"#D9D9D9"}
                 title={"user"}
                 height="1rem"
                 width="1rem"
@@ -27,14 +68,15 @@ export default function Register() {
               type="text"
               required
               name="name"
-              // value={userRegister.name}
+              onChange={handleChange}
+              value={registerUser.name}
             />
             <label>Name</label>
           </div>
           <div className="input-box">
             <span className="icon">
               <MailSharp
-                color={"#00000"}
+                color={"#D9D9D9"}
                 title={"email"}
                 height="1rem"
                 width="1rem"
@@ -44,14 +86,15 @@ export default function Register() {
               type="email"
               required
               name="email"
-              // value={userRegister.email}
+              onChange={handleChange}
+              value={registerUser.email}
             />
             <label>Email</label>
           </div>
           <div className="input-box">
             <span className="icon">
               <LockClosedSharp
-                color={"#00000"}
+                color={"#D9D9D9"}
                 title={"password"}
                 height="1rem"
                 width="1rem"
@@ -62,7 +105,8 @@ export default function Register() {
               type="password"
               required
               name="password"
-              // value={userRegister.password}
+              onChange={handleChange}
+              value={registerUser.password}
             />
             <label>Password</label>
           </div>

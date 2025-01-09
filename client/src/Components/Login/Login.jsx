@@ -7,17 +7,62 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 const loginUrl = "http://localhost:3000/login";
 
-export default function Login({ setUser }) {
+export default function Login({user}) {
+  let navigate = useNavigate();
+
+  const [userLogin, setUserLogin] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setUserLogin({
+      ...userLogin,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const resetLogin = () => {
+    setUserLogin({
+      email: "",
+      password: "",
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await fetch(loginUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userLogin),
+        credentials: 'include',
+      });
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data)
+      if(data.allow){
+        resetLogin()
+        navigate(`/${data.id}/home`)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  };
 
   return (
     <div className="Logincontainer">
       <div className="login-box">
-        <form>
+        <form onSubmit={handleSubmit}>
           <h2>Login</h2>
           <div className="input-box">
             <span className="icon">
               <MailSharp
-                color={"#00000"}
+                color={"#D9D9D9"}
                 title={"email"}
                 height="1rem"
                 width="1rem"
@@ -27,14 +72,15 @@ export default function Login({ setUser }) {
               type="email"
               required
               name="email"
-              // value={userLogin.email}
+              onChange={handleChange}
+              value={userLogin.email}
             />
             <label>Email</label>
           </div>
           <div className="input-box">
             <span className="icon">
               <LockClosedSharp
-                color={"#00000"}
+                color={"#D9D9D9"}
                 title={"password"}
                 height="1rem"
                 width="1rem"
@@ -45,7 +91,8 @@ export default function Login({ setUser }) {
               type="password"
               required
               name="password"
-              // value={userLogin.password}
+              onChange={handleChange}
+              value={userLogin.password}
             />
             <label>Password</label>
           </div>
