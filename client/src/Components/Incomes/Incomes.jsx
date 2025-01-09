@@ -27,7 +27,6 @@ export default function Incomes({ incomes }) {
 
   const theme = useTheme(getTheme());
 
-  // Sorting logic using the useSort hook
   const sort = useSort(
     data,
     {

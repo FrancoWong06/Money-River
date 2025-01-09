@@ -1,9 +1,65 @@
-.tableContainer{
+.tableContainer {
   display: flex;
   justify-content: center;  
   align-items: center;    
   height: 100vh;         
-  width: 100vw;  
+  width: 100vw; 
+  max-width: 1200px;
+  overflow-x: auto; 
+  overflow-y: auto; 
 }
 
+.tableContainer table {
+  width: 72%;
+  max-height: 80%;
+  border-collapse: collapse;
+  font-size: 16px;
+  border-radius: 0.4rem;
+}
 
+.tableContainer th {
+  text-align: left;
+  background-color: #2d2d2d;
+  color: #fff;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+  cursor: pointer;
+}
+
+.tableContainer th:hover {
+  background-color: #2d2d2da8;
+}
+
+.tableContainer td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tableContainer tr:hover {
+  background-color: #f1f1f1;
+}
+
+.tableContainer tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tableContainer th.sorted {
+  background-color: #0056b3;
+  color: #fff;
+  font-weight: bold;
+}
+
+.tableContainer td.amount {
+  text-align: right;
+  color: #28a745;
+  font-weight: bold;
+}
+
+.tableContainer td.date {
+  text-align: center;
+  font-style: italic;
+}
+
+.tableContainer .faSort {
+  margin-left: 5px;
+}
