@@ -7,7 +7,7 @@ import Register from "./Components/Register/Register";
 import Home from "./Components/Home/Home";
 import AddIncome from './Components/AddIncome/AddIncome'
 import Incomes from './Components/Incomes/Incomes'
-import Expenses from './Components/Incomes/Incomes'
+import Expenses from './Components/Expenses/Expenses'
 
 import AddExpense  from "./Components/AddExpense/AddExpense";
 function App() {
@@ -33,7 +33,7 @@ function App() {
           <Route path="/:id/addincome" element={<AddIncome user={user}/>}/>
           <Route path="/:id/addexpense" element={<AddExpense user={user}/>}/>
           <Route path="/:id/incomes" element={<Incomes incomes={user.incomes}/>}/>
-          <Route path="/:id/expenses" element={<Expenses incomes={user.incomes}/>}/>
+          <Route path="/:id/expenses" element={<Expenses expenses={user.expenses}/>}/>
         </Routes>
       </Router>
     </div>
