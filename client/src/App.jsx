@@ -32,8 +32,8 @@ function App() {
           />
           <Route path="/:id/addincome" element={<AddIncome user={user}/>}/>
           <Route path="/:id/addexpense" element={<AddExpense user={user}/>}/>
-          <Route path="/:id/incomes" element={<Incomes incomes={user.incomes}/>}/>
-          <Route path="/:id/expenses" element={<Expenses expenses={user.expenses}/>}/>
+          <Route path="/:id/incomes" element={<Incomes/>}/>
+          <Route path="/:id/expenses" element={<Expenses/>}/>
         </Routes>
       </Router>
     </div>

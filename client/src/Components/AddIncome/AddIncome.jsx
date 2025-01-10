@@ -46,7 +46,7 @@ export default function AddIncome({ user }) {
         throw new Error(`Response status: ${response.status}`);
       }
       resetAddIncome();
-      navigate('/:id/home')
+      navigate("/:id/home");
     } catch (err) {
       console.log(err);
     }
@@ -92,6 +92,8 @@ export default function AddIncome({ user }) {
           <input
             required
             name="date"
+            min="2025-01-01"
+            max="2025-12-31"
             value={addIncome.date}
             type="date"
             className="incomeInput"

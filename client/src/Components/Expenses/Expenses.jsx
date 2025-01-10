@@ -1,5 +1,7 @@
-import * as React from "react";
-import { FaSort } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { MdDelete } from "react-icons/md";
+import { MdCalendarMonth } from "react-icons/md";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 import {
   Table,
@@ -10,8 +12,6 @@ import {
   HeaderCell,
   Cell,
 } from "@table-library/react-table-library/table";
-import { useTheme } from "@table-library/react-table-library/theme";
-import { getTheme } from "@table-library/react-table-library/baseline";
 
 import {
   useSort,
@@ -20,12 +20,15 @@ import {
 
 import "./Expenses.css";
 
-export default function Incomes({ expenses }) {
-  const data = {
-    nodes: expenses,
-  };
+import fetchIncomesExpenses from "../../Helper/fetchIncomesExpenses";
 
-  const theme = useTheme(getTheme());
+export default function Expenses() {
+  const [content, setContent] = useState([]);
+  const [monthContent, setMonthContent] = useState([]);
+
+  const data = {
+    nodes: monthContent,
+  };
 
   const sort = useSort(
     data,
@@ -34,10 +37,13 @@ export default function Incomes({ expenses }) {
     },
     {
       sortFns: {
-        category: (array) => array.sort((a, b) => a.category.localeCompare(b.category)),
-        date: (array) => array.sort((a, b) => new Date(a.date) - new Date(b.date)),
+        category: (array) =>
+          array.sort((a, b) => a.category.localeCompare(b.category)),
+        date: (array) =>
+          array.sort((a, b) => new Date(a.date) - new Date(b.date)),
         amount: (array) => array.sort((a, b) => a.amount - b.amount),
-        TASKS: (array) => array.sort((a, b) => (a.nodes || []).length - (b.nodes || []).length),
+        TASKS: (array) =>
+          array.sort((a, b) => (a.nodes || []).length - (b.nodes || []).length),
       },
     }
   );
@@ -46,22 +52,67 @@ export default function Incomes({ expenses }) {
     console.log(action, state);
   }
 
+  const getExpenses = async () => {
+    const data = await fetchIncomesExpenses();
+    setContent(data.expenses);
+  };
+
+  const handleChange = (e) => {
+    const seletedMonth = e.target.value;
+    let result = [];
+    if(seletedMonth === 'all'){
+      for(let i = 0; i<content.length; i++){
+        result.push(content[i])
+      }
+    }
+    for (let i = 0; i < content.length; i++) {
+      if (content[i].date.split("-")[1] === seletedMonth) {
+        result.push(content[i]);
+      }
+    }
+    console.log(result)
+    setMonthContent(result);
+  };
+
+  useEffect(() => {
+    getExpenses();
+  }, [monthContent]);
   return (
     <div className="tableContainer">
-      <Table data={data} theme={theme} sort={sort}>
+      <div className="select">
+        <select
+          name="month"
+          id="month"
+          className="month"
+          onChange={handleChange}
+        >
+          <option value="" disabled selected>
+            Select a Month
+          </option>
+          <option value="all">All</option>
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+      </div>
+      <Table data={data} sort={sort}>
         {(tableList) => (
           <>
             <Header>
               <HeaderRow>
-                <HeaderCellSort sortKey="category">
-                  Category 
-                </HeaderCellSort>
-                <HeaderCellSort sortKey="amount">
-                  Amount
-                </HeaderCellSort>
-                <HeaderCellSort sortKey="date">
-                  Date 
-                </HeaderCellSort>
+                <HeaderCellSort sortKey="category">Category</HeaderCellSort>
+                <HeaderCellSort sortKey="amount">Amount</HeaderCellSort>
+                <HeaderCellSort sortKey="date">Date</HeaderCellSort>
+                <HeaderCell>Delete</HeaderCell>
               </HeaderRow>
             </Header>
 
@@ -76,6 +127,11 @@ export default function Incomes({ expenses }) {
                       month: "2-digit",
                       day: "2-digit",
                     })}
+                  </Cell>
+                  <Cell className="delete">
+                    <MdDelete />
+                    <MdDelete />
+                    <MdDelete />
                   </Cell>
                 </Row>
               ))}

@@ -114,3 +114,29 @@ exports.addExpense = async (req, res) => {
   }
 };
 
+exports.getIncomesExpenses = async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: No token provided" });
+    }
+    jwt.verify(
+      token,
+      process.env.ACCESSS_TOKEN_SECRET,
+      async (err, decoded) => {
+        if (err) {
+          return res.status(403).json({ message: "Forbidden: Invalid token" });
+        }
+        const user = await User.findById(decoded.id).select("-password");
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ user });
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};

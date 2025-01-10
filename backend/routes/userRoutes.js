@@ -25,5 +25,7 @@ router.post('/addIncome', authenticateToken, userController.addIncome)
 
 router.post('/addExpense', authenticateToken, userController.addExpense)
 
+router.get('/incomesexpenses', authenticateToken, userController.getIncomesExpenses)
+
 
 module.exports = router;
