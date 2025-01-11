@@ -14,6 +14,7 @@ export default async function fetchIncomesExpenses() {
     return {
       incomes: user.user.incomes,
       expenses: user.user.expenses,
+      id: user.user._id
     };
   } catch (error) {
     console.error("Error fetching incomes and expenses:", error);

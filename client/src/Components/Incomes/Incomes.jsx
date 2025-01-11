@@ -21,9 +21,12 @@ import "./Incomes.css";
 
 import fetchIncomesExpenses from "../../Helper/fetchIncomesExpenses";
 
+const deleteIncomeItemUrl = "http://localhost:3000/deleteIncome";
+
 export default function Incomes() {
+  const [userId, setUserId] = useState("");
   const [content, setContent] = useState([]);
-  const [monthContent, setMonthContent] = useState(content)
+  const [monthContent, setMonthContent] = useState(content);
 
   const data = {
     nodes: monthContent,
@@ -52,14 +55,15 @@ export default function Incomes() {
   const getIncomes = async () => {
     const data = await fetchIncomesExpenses();
     setContent(data.incomes);
+    setUserId(data.id);
   };
 
   const handleChange = (e) => {
     const seletedMonth = e.target.value;
     let result = [];
-    if(seletedMonth === 'all'){
-      for(let i = 0; i<content.length; i++){
-        result.push(content[i])
+    if (seletedMonth === "all") {
+      for (let i = 0; i < content.length; i++) {
+        result.push(content[i]);
       }
     }
     for (let i = 0; i < content.length; i++) {
@@ -67,8 +71,33 @@ export default function Incomes() {
         result.push(content[i]);
       }
     }
-    console.log(result)
+    console.log(result);
     setMonthContent(result);
+  };
+
+  const deleteIncome = async (itemId, userId) => {
+    console.log(itemId, userId);
+    console.log(content);
+    const details = {
+      itemId: itemId,
+      userId: userId,
+    };
+    try {
+      const response = fetch(deleteIncomeItemUrl, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(details),
+      });
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      getIncomes();
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -78,29 +107,29 @@ export default function Incomes() {
   return (
     <div className="tableContainer">
       <div className="select">
-          <select
-            name="month"
-            id="month"
-            className="month"
-            onChange={handleChange}
-          >
-            <option value="" disabled selected>
-              Select a Month
-            </option>
-            <option value="all">All</option>
-            <option value="01">January</option>
-            <option value="02">February</option>
-            <option value="03">March</option>
-            <option value="04">April</option>
-            <option value="05">May</option>
-            <option value="06">June</option>
-            <option value="07">July</option>
-            <option value="08">August</option>
-            <option value="09">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
-          </select>
+        <select
+          name="month"
+          id="month"
+          className="month"
+          onChange={handleChange}
+        >
+          <option value="" disabled selected>
+            Select a Month
+          </option>
+          <option value="all">All</option>
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
       </div>
       <Table data={data} sort={sort}>
         {(tableList) => (
@@ -126,7 +155,17 @@ export default function Incomes() {
                       day: "2-digit",
                     })}
                   </Cell>
-                  <Cell className="delete">
+                  <Cell
+                    className="delete"
+                    onClick={() => {
+                      const confirmed = window.confirm(
+                        "Are you sure you want to delete this income?"
+                      );
+                      if (confirmed) {
+                        deleteIncome(item._id, userId);
+                      }
+                    }}
+                  >
                     <MdDelete />
                     <MdDelete />
                     <MdDelete />

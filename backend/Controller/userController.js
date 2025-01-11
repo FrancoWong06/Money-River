@@ -138,5 +138,50 @@ exports.getIncomesExpenses = async (req, res) => {
     );
   } catch (e) {
     console.log(e);
+    res.status(500).json("An error occurred");
   }
 };
+
+exports.deleteIncomeItem = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const itemId = req.body.itemId;
+
+    // Validate inputs
+    if (!userId || !itemId) {
+      return res.status(400).json({ error: "User ID and Item ID are required" });
+    }
+
+    // Perform the update operation
+    const result = await User.updateOne(
+      { _id: userId },
+      { $pull: { incomes: { _id: itemId } } }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res
+        .status(404)
+        .json({ error: "Income item not found or already removed" });
+    }
+
+    res.status(200).json({ message: "Income item removed successfully" });
+  } catch (e) {
+    console.error("Error deleting income item:", e);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
+exports.deleteExpenseItem = async (req,res) => {
+  try {
+    const itemId = req.body.itemId;
+    await User.updateOne(
+      { _id: req.body.userId },
+      { $pull: { expenses: { expensesId: itemId } } }
+    );
+    res.status(200).json({ message: "Income item removed successfully" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json("An error occurred");
+  }
+}
