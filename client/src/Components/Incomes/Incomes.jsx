@@ -71,13 +71,11 @@ export default function Incomes() {
         result.push(content[i]);
       }
     }
-    console.log(result);
     setMonthContent(result);
   };
 
   const deleteIncome = async (itemId, userId) => {
-    console.log(itemId, userId);
-    console.log(content);
+    setMonthContent((prev) => prev.filter((item) => item._id !== itemId));
     const details = {
       itemId: itemId,
       userId: userId,
@@ -94,7 +92,7 @@ export default function Incomes() {
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
-      getIncomes();
+      await getIncomes();
     } catch (e) {
       console.log(e);
     }
