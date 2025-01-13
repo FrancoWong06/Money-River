@@ -18,13 +18,20 @@ import {
   HeaderCellSort,
 } from "@table-library/react-table-library/sort";
 
+import { NavLink, useNavigate } from "react-router-dom";
+
 import "./Expenses.css";
 
 import fetchIncomesExpenses from "../../Helper/fetchIncomesExpenses";
 
+const deleteExpenseItemUrl = "http://localhost:3000/deleteExpense";
+
 export default function Expenses() {
+  let navigate = useNavigate();
+
+  const [userId, setUserId] = useState("");
   const [content, setContent] = useState([]);
-  const [monthContent, setMonthContent] = useState([]);
+  const [monthContent, setMonthContent] = useState(content);
 
   const data = {
     nodes: monthContent,
@@ -55,14 +62,15 @@ export default function Expenses() {
   const getExpenses = async () => {
     const data = await fetchIncomesExpenses();
     setContent(data.expenses);
+    setUserId(data.id);
   };
 
   const handleChange = (e) => {
     const seletedMonth = e.target.value;
     let result = [];
-    if(seletedMonth === 'all'){
-      for(let i = 0; i<content.length; i++){
-        result.push(content[i])
+    if (seletedMonth === "all") {
+      for (let i = 0; i < content.length; i++) {
+        result.push(content[i]);
       }
     }
     for (let i = 0; i < content.length; i++) {
@@ -70,8 +78,36 @@ export default function Expenses() {
         result.push(content[i]);
       }
     }
-    console.log(result)
+    console.log(result);
     setMonthContent(result);
+  };
+
+  const deleteIncome = async (itemId, userId) => {
+    setMonthContent((prev) => prev.filter((item) => item._id !== itemId));
+    const details = {
+      itemId: itemId,
+      userId: userId,
+    };
+    try {
+      const response = fetch(deleteExpenseItemUrl, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(details),
+      });
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      await getIncomes();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const navToHome = () => {
+    navigate(`/${userId}/home`);
   };
 
   useEffect(() => {
@@ -103,6 +139,7 @@ export default function Expenses() {
           <option value="11">November</option>
           <option value="12">December</option>
         </select>
+        <button onClick={navToHome}>Home</button>
       </div>
       <Table data={data} sort={sort}>
         {(tableList) => (
@@ -128,7 +165,17 @@ export default function Expenses() {
                       day: "2-digit",
                     })}
                   </Cell>
-                  <Cell className="delete">
+                  <Cell
+                    className="delete"
+                    onClick={() => {
+                      const confirmed = window.confirm(
+                        "Are you sure you want to delete this income?"
+                      );
+                      if (confirmed) {
+                        deleteIncome(item._id, userId);
+                      }
+                    }}
+                  >
                     <MdDelete />
                     <MdDelete />
                     <MdDelete />

@@ -171,15 +171,47 @@ exports.deleteIncomeItem = async (req, res) => {
   }
 };
 
-
 exports.deleteExpenseItem = async (req,res) => {
   try {
+    const userId = req.body.userId;
     const itemId = req.body.itemId;
-    await User.updateOne(
-      { _id: req.body.userId },
-      { $pull: { expenses: { expensesId: itemId } } }
+
+    // Validate inputs
+    if (!userId || !itemId) {
+      return res.status(400).json({ error: "User ID and Item ID are required" });
+    }
+
+    // Perform the update operation
+    const result = await User.updateOne(
+      { _id: userId },
+      { $pull: { expenses: { _id: itemId } } }
     );
+
+    if (result.modifiedCount === 0) {
+      return res
+        .status(404)
+        .json({ error: "Income item not found or already removed" });
+    }
+
     res.status(200).json({ message: "Income item removed successfully" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json("An error occurred");
+  }
+}
+
+exports.logout = async (req,res) => {
+  try {
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(400).json({ message: "No token found to log out" });
+    }
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+    });
+    res.status(200).json({message: "Logged Out", allowLogout: true})
   } catch (e) {
     console.log(e);
     res.status(500).json("An error occurred");

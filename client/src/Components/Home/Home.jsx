@@ -177,7 +177,7 @@ export default function Home({ user, setUser }) {
           <div className="navigation">
             <h3>Navigation</h3>
             <div className="navigationItems">
-              <NavLink className="NavLink">
+              <NavLink className="NavLink" to={`/${user.id}/account`}>
                 <MdAccountCircle />
                 Account
               </NavLink>

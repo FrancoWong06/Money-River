@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { MdOutlineFindInPage } from "react-icons/md";
 
 import {
   Table,
@@ -17,6 +16,8 @@ import {
   HeaderCellSort,
 } from "@table-library/react-table-library/sort";
 
+import { NavLink, useNavigate } from "react-router-dom";
+
 import "./Incomes.css";
 
 import fetchIncomesExpenses from "../../Helper/fetchIncomesExpenses";
@@ -24,6 +25,8 @@ import fetchIncomesExpenses from "../../Helper/fetchIncomesExpenses";
 const deleteIncomeItemUrl = "http://localhost:3000/deleteIncome";
 
 export default function Incomes() {
+  let navigate = useNavigate();
+
   const [userId, setUserId] = useState("");
   const [content, setContent] = useState([]);
   const [monthContent, setMonthContent] = useState(content);
@@ -98,6 +101,10 @@ export default function Incomes() {
     }
   };
 
+  const navToHome = () => {
+    navigate(`/${userId}/home`)
+  }
+
   useEffect(() => {
     getIncomes();
   }, [monthContent]);
@@ -128,6 +135,7 @@ export default function Incomes() {
           <option value="11">November</option>
           <option value="12">December</option>
         </select>
+        <button onClick={navToHome}>Home</button>
       </div>
       <Table data={data} sort={sort}>
         {(tableList) => (
