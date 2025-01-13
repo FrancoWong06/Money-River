@@ -63,7 +63,7 @@ export default function Account() {
     <div className="account">
       <div className="accountNav">
         <div className="nameandemail">
-          <MdAccountCircle className="icon" />
+          <MdAccountCircle className="userIcon" />
           <h2>{user.name}</h2>
           <h4>{user.email}</h4>
         </div>
