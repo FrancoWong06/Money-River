@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import { IoAdd } from "react-icons/io5";
 import { MdAccountCircle } from "react-icons/md";
@@ -10,7 +10,7 @@ import { AgCharts } from "ag-charts-react";
 
 const userDetailsUrl = "http://localhost:3000/home";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Home.css";
 
 export default function Home({ user, setUser }) {

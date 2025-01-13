@@ -44,4 +44,6 @@ router.post(
 
 router.post("/logout", authenticateToken, userController.logout);
 
+router.post('/updateInfo', authenticateToken, userController.updateInfo)
+
 module.exports = router;

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IoIosHappy } from "react-icons/io";
 
 import "./AddIncome.css";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const addIncomeUrl = "http://localhost:3000/addIncome";
 

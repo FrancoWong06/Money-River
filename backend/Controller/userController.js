@@ -149,7 +149,9 @@ exports.deleteIncomeItem = async (req, res) => {
 
     // Validate inputs
     if (!userId || !itemId) {
-      return res.status(400).json({ error: "User ID and Item ID are required" });
+      return res
+        .status(400)
+        .json({ error: "User ID and Item ID are required" });
     }
 
     // Perform the update operation
@@ -171,14 +173,16 @@ exports.deleteIncomeItem = async (req, res) => {
   }
 };
 
-exports.deleteExpenseItem = async (req,res) => {
+exports.deleteExpenseItem = async (req, res) => {
   try {
     const userId = req.body.userId;
     const itemId = req.body.itemId;
 
     // Validate inputs
     if (!userId || !itemId) {
-      return res.status(400).json({ error: "User ID and Item ID are required" });
+      return res
+        .status(400)
+        .json({ error: "User ID and Item ID are required" });
     }
 
     // Perform the update operation
@@ -198,9 +202,9 @@ exports.deleteExpenseItem = async (req,res) => {
     console.log(e);
     res.status(500).json("An error occurred");
   }
-}
+};
 
-exports.logout = async (req,res) => {
+exports.logout = async (req, res) => {
   try {
     const token = req.cookies.token;
     if (!token) {
@@ -211,9 +215,33 @@ exports.logout = async (req,res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
     });
-    res.status(200).json({message: "Logged Out", allowLogout: true})
+    res.status(200).json({ message: "Logged Out", allowLogout: true });
   } catch (e) {
     console.log(e);
     res.status(500).json("An error occurred");
   }
-}
+};
+
+exports.updateInfo = async (req, res) => {
+  try {
+    console.log(req.body);
+    const user = await User.findOne({ email: req.body.email });
+    const isMatch = await bcrypt.compare(req.body.oldPassword, user.password);
+    if (!isMatch) {
+      return res.json({ message: "Password not match" });
+    }
+    if (req.body.newName) user.name = req.body.newName;
+    if (req.body.newEmail) user.email = req.body.newEmail;
+    if (req.body.newPassword) {
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(req.body.newPassword, salt);
+    }
+    const updatedUser = await user.save();
+
+    console.log("Updated User:", updatedUser);
+    res.status(200).json({ message: "User info updated successfully" });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json("An error occurred");
+  }
+};

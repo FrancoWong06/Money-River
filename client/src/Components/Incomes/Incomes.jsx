@@ -16,7 +16,7 @@ import {
   HeaderCellSort,
 } from "@table-library/react-table-library/sort";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./Incomes.css";
 

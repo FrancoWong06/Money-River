@@ -44,7 +44,6 @@ export default function Login({user}) {
         throw new Error(`Response status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data)
       if(data.allow){
         resetLogin()
         navigate(`/${data.id}/home`)

@@ -111,7 +111,7 @@
 }
 
 .infoBubble{
-  background-color:#d9d9d9aa;
+  background-color:#D9D9D9;
   width: 40%;
   height: 8rem;
   border-radius: 0.2rem;
@@ -127,20 +127,75 @@
 }
 
 .infoBubble > .infoHeader > h3{
-  color: #d9d9d9;
+  color: #191919;
 }
 
 .infoIcon{
-  color: #d9d9d9;
+  color: #191919;
   font-size: 1.2em;
 }
 
 .infoBubble > h5 {
-  color: #d9d9d9;
+  color: #191919;
   max-width: 100%;
   margin-right: 1rem;
   margin-top: 0.8rem;
   margin-left: 0.5rem;
   word-wrap: break-word;
   overflow-wrap: break-word; 
+}
+
+
+.updateInfo{
+  margin-top: 1rem;
+  background-color: #D9D9D9;
+  max-width: 83%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.updateInfo > h3 {
+  margin-top: 0.8rem;
+  color: #191919;
+}
+
+.updateInfo > form{
+  margin-top: 0.8rem;
+  max-width: 80%;
+  width:fit-content;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.updateInfo > form  >div > input{
+  padding-right: 0rem;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 100%;
+  color:#D9D9D9 ;
+  border-bottom: 2px solid #191919 ;
+  color:#191919 ;
+}
+
+.stEl{
+  margin-right: 0.4rem;
+}
+
+.updateInfo > form > button {
+  width: 50%;
+  height: 2rem;
+  color:#D9D9D9 ;
+  outline: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.8em;
+  color: #1C1C1C;
+  font-weight: 400;
+  margin-bottom: 1rem;
 }

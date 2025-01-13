@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { MdAccountCircle } from "react-icons/md";
-import { RiAccountPinCircleFill } from "react-icons/ri";
-import { MdEmail } from "react-icons/md";
-import { RiLockPasswordFill } from "react-icons/ri";
-import { FiAperture } from "react-icons/fi";
+import {
+  RiLockPasswordFill,
+  FiAperture,
+  MdEmail,
+  RiAccountPinCircleFill,
+  MdAccountCircle,
+} from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import "./Account.css";
 
 const userDetailsUrl = "http://localhost:3000/home";
 const logoutUserUrl = "http://localhost:3000/logout";
+const updateInfoUrl = "http://localhost:3000/updateInfo";
 
 export default function Account() {
   let navigate = useNavigate();
@@ -18,6 +21,31 @@ export default function Account() {
     name: "",
     email: "",
   });
+
+  const [updateInfo, setUpdateInfo] = useState({
+    email: "",
+    newName: "",
+    newEmail: "",
+    oldPassword: "",
+    newPassword: "",
+  });
+
+  const resetUpdateForm = () => {
+    setUpdateInfo({
+      email: updateInfo.email,
+      newName: "",
+      newEmail: "",
+      oldPassword: "",
+      newPassword: "",
+    });
+  };
+
+  const handleChange = (e) => {
+    setUpdateInfo({
+      ...updateInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const fetchUserDetails = async () => {
     try {
@@ -34,6 +62,13 @@ export default function Account() {
         name: userDetails.user.name,
         email: userDetails.user.email,
       });
+      setUpdateInfo({
+        email: userDetails.user.email,
+        newName: "",
+        newEmail: "",
+        oldPassword: "",
+        newPassword: "",
+      });
     } catch (e) {
       console.log(e);
     }
@@ -42,21 +77,44 @@ export default function Account() {
   const logoutUser = async () => {
     try {
       const response = await fetch(logoutUserUrl, {
-        method:"POST",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: 'include',
-      })
-      navigate('/')
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      navigate("/");
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
+
+  const updateInfoFunc = async (e) => {
+    e.preventDefault();
+    try {
+      const response = fetch(updateInfoUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(updateInfo),
+      });
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      alert("Update successfully");
+      resetUpdateForm();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     fetchUserDetails();
-    console.log(user);
   }, []);
 
   return (
@@ -71,7 +129,9 @@ export default function Account() {
           <NavLink to={`/${user.id}/home`} className="accountNavHome">
             Home
           </NavLink>
-          <NavLink className="accountNavLogout" onClick={logoutUser}>Logout</NavLink>
+          <NavLink className="accountNavLogout" onClick={logoutUser}>
+            Logout
+          </NavLink>
         </div>
       </div>
       <div className="personalInfo">
@@ -109,6 +169,42 @@ export default function Account() {
             </div>
             <h5>2025</h5>
           </div>
+        </div>
+        <div className="updateInfo">
+          <h3>Update new details</h3>
+          <form onSubmit={updateInfoFunc}>
+            <div>
+              <input
+                type="text"
+                placeholder="New Name"
+                className="stEl"
+                name="newName"
+                onChange={handleChange}
+              />
+              <input
+                type="email"
+                placeholder="New Email"
+                name="newEmail"
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <input
+                type="password"
+                placeholder="Old Password"
+                className="stEl"
+                name="oldPassword"
+                onChange={handleChange}
+              />
+              <input
+                type="password"
+                placeholder="New Password"
+                name="newPassword"
+                onChange={handleChange}
+              />
+            </div>
+            <button type="submit">Update</button>
+          </form>
         </div>
       </div>
     </div>

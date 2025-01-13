@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RiEmotionUnhappyFill } from "react-icons/ri";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const addExpenseUrl = "http://localhost:3000/addExpense";
 
@@ -45,7 +45,7 @@ export default function AddExpense({ user }) {
         throw new Error(`Response status: ${response.status}`);
       }
       resetAddIncome();
-      navigate('/:id/home')
+      navigate("/:id/home");
     } catch (err) {
       console.log(err);
     }

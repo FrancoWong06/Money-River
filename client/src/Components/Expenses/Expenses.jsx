@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { MdCalendarMonth } from "react-icons/md";
-import { IoMdArrowDropdown } from "react-icons/io";
 
 import {
   Table,
@@ -18,7 +16,7 @@ import {
   HeaderCellSort,
 } from "@table-library/react-table-library/sort";
 
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./Expenses.css";
 
