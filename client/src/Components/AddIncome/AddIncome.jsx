@@ -4,7 +4,7 @@ import { IoIosHappy } from "react-icons/io";
 import "./AddIncome.css";
 import { useNavigate } from "react-router-dom";
 
-const addIncomeUrl = "http://localhost:3000/addIncome";
+const addIncomeUrl = "http://localhost:8000/addIncome";
 
 export default function AddIncome({ user }) {
   let navigate = useNavigate();

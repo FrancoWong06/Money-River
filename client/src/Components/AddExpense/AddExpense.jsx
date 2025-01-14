@@ -3,7 +3,7 @@ import { RiEmotionUnhappyFill } from "react-icons/ri";
 
 import { useNavigate } from "react-router-dom";
 
-const addExpenseUrl = "http://localhost:3000/addExpense";
+const addExpenseUrl = "http://localhost:8000/addExpense";
 
 export default function AddExpense({ user }) {
   let navigate = useNavigate();

@@ -22,7 +22,7 @@ import "./Expenses.css";
 
 import fetchIncomesExpenses from "../../Helper/fetchIncomesExpenses";
 
-const deleteExpenseItemUrl = "http://localhost:3000/deleteExpense";
+const deleteExpenseItemUrl = "http://localhost:8000/deleteExpense";
 
 export default function Expenses() {
   let navigate = useNavigate();

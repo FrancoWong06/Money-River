@@ -8,7 +8,7 @@ import { BsFillWalletFill } from "react-icons/bs";
 
 import { AgCharts } from "ag-charts-react";
 
-const userDetailsUrl = "http://localhost:3000/home";
+const userDetailsUrl = "http://localhost:8000/home";
 
 import { NavLink } from "react-router-dom";
 import "./Home.css";

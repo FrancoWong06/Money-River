@@ -1,4 +1,4 @@
-const incomesExpensesUrl = "http://localhost:3000/incomesexpenses"
+const incomesExpensesUrl = "http://localhost:8000/incomesexpenses"
 
 export default async function fetchIncomesExpenses() {
   try {

@@ -5,7 +5,7 @@ import { LockClosedSharp } from "react-ionicons";
 import "./Login.css";
 import { NavLink, useNavigate } from "react-router-dom";
 
-const loginUrl = "http://localhost:3000/login";
+const loginUrl = "http://localhost:8000/login";
 
 export default function Login({user}) {
   let navigate = useNavigate();

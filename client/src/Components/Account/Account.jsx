@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  RiLockPasswordFill,
-  FiAperture,
-  MdEmail,
-  RiAccountPinCircleFill,
-  MdAccountCircle,
-} from "react-icons/ri";
+import { RiLockPasswordFill,RiAccountPinCircleFill } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
+import { FiAperture } from "react-icons/fi";
+import { MdAccountCircle,MdEmail } from "react-icons/md";
 
 import "./Account.css";
 
-const userDetailsUrl = "http://localhost:3000/home";
-const logoutUserUrl = "http://localhost:3000/logout";
-const updateInfoUrl = "http://localhost:3000/updateInfo";
+const userDetailsUrl = "http://localhost:8000/home";
+const logoutUserUrl = "http://localhost:8000/logout";
+const updateInfoUrl = "http://localhost:8000/updateInfo";
 
 export default function Account() {
   let navigate = useNavigate();

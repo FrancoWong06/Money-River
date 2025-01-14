@@ -5,7 +5,7 @@ import { PersonCircleOutline } from "react-ionicons";
 
 import { NavLink, useNavigate } from "react-router-dom";
 
-const registerUrl = "http://localhost:3000/register";
+const registerUrl = "http://localhost:8000/register";
 
 export default function Register() {
   const navigate = useNavigate();
