@@ -21,7 +21,7 @@ npm run dev
 ### BackEnd Setup
 
 ```
-cd ..
+cd backend
 npm i
 nodemon server.js
 ```
